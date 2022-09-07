@@ -1,0 +1,16 @@
+tasks:
+
+  - name: csa
+    command: |
+      echo "update csa"
+      ssh app@edu.nitta.io 'cd /srv/edu/csa; git pull'
+
+  - name: se-am
+    command: |
+      echo "update se-am"
+      ssh app@edu.nitta.io 'cd /srv/edu/se-am; git pull'
+
+  - name: fp
+    command: |
+      echo "update fp"
+      ssh app@edu.nitta.io 'cd /srv/edu/fp; git pull'

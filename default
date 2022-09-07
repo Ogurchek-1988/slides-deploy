@@ -1,0 +1,44 @@
+server {
+	listen 80;
+	server_name se-am.edu.nitta.io;
+	location / {
+		proxy_set_header   X-Forwarded-For $remote_addr;
+		proxy_set_header   Host $http_host;
+		proxy_pass         "http://127.0.0.1:8000";
+		client_max_body_size 200M;
+	}
+}
+
+server {
+	listen 80;
+	server_name fp.edu.nitta.io;
+	location / {
+		proxy_set_header   X-Forwarded-For $remote_addr;
+		proxy_set_header   Host $http_host;
+		proxy_pass         "http://127.0.0.1:8001";
+		client_max_body_size 200M;
+	}
+}
+
+server {
+    listen 80;
+    server_name csa.edu.nitta.io;
+    location / {
+    	proxy_set_header   X-Forwarded-For $remote_addr;
+        proxy_set_header   Host $http_host;
+        proxy_pass         "http://127.0.0.1:8002";
+        client_max_body_size 200M;
+    }
+}
+
+# updater
+server {
+    listen 80;
+    server_name edu.nitta.io;
+    location / {
+        proxy_set_header   X-Forwarded-For $remote_addr;
+        proxy_set_header   Host $http_host;
+        proxy_pass         "http://127.0.0.1:8008";
+        client_max_body_size 200M;
+    }
+}

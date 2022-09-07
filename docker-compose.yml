@@ -1,0 +1,36 @@
+se-am:
+    image: webpronl/reveal-md
+    ports:
+        - 8000:1948
+    volumes:
+        - ./se-am/slides:/slides
+    restart: unless-stopped
+
+fp:
+    image: webpronl/reveal-md
+    ports:
+        - 8001:1948
+    volumes:
+        - ./fp/slides:/slides
+    restart: unless-stopped
+
+csa:
+    image: webpronl/reveal-md
+    ports:
+        - 8002:1948
+    volumes:
+        - ./csa/slides:/slides
+        - ./csa/fig:/slides/figures
+    restart: unless-stopped
+
+updater:
+    image: ghcr.io/umputun/updater:master
+    ports:
+        - 8008:8008
+    environment:
+        - LISTEN=0.0.0.0:8008 
+        - KEY=key 
+        - CONF=/srv/etc/updater.yml
+    volumes:
+        - ./updater:/srv/etc
+        - /home/app/.ssh:/home/app/.ssh 
