@@ -1,0 +1,63 @@
+- name: Clone repository, copy fig and slides to csa/fp/se-am, and launch docker-compose
+  hosts: localhost
+  become: true
+  vars:
+    git_csa_repo_url: https://gitlab.se.ifmo.ru/Ivan_Ostapenko/csa-rolling.git
+    git_fp_repo_url: https://gitlab.se.ifmo.ru/Ivan_Ostapenko/main.git
+    git_se_am_repo_url: https://gitlab.se.ifmo.ru/Ivan_Ostapenko/architectural-modeling.git
+    git_bot_repo_url: https://github.com/ryukzak/course-bot.git
+    docker_compose_file: ./slides-deploy
+  tasks:
+    - name: Clone or pull repositories
+      git:
+        repo: "{{ item.repo }}"
+        dest: "{{ item.dest }}"
+        version: "{{ item.version }}"
+        force: yes
+      with_items:
+        - { repo: "{{ git_csa_repo_url }}", dest: './csa-rolling', version: 'master' }
+        - { repo: "{{ git_fp_repo_url }}", dest: './fp-rolling', version: 'master' }
+        - { repo: "{{ git_se_am_repo_url }}", dest: './se-am-rolling', version: 'master' }
+        - { repo: "{{ git_bot_repo_url }}", dest: './course-bot', version: 'master' }
+
+    - name: Create csa,fp,se-am in slides-deploy
+      file:
+        path: ./slides-deploy/csa
+        state: directory
+      with_items:
+        - ./slides-deploy/csa
+        - ./slides-deploy/fp
+        - ./slides-deploy/se-am
+
+    - name: Copy slides and figures to slides directories
+      copy:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+      with_items:
+        - { src: './csa-rolling/fig', dest: './slides-deploy/csa'}
+        - { src: './csa-rolling/slides', dest: './slides-deploy/csa'}
+        - { src: './se-am-rolling/slides', dest: './slides-deploy/se-am'}
+        - { src: './fp-rolling/slides', dest: './slides-deploy/fp'}
+
+    - name: docker-compose up
+      community.docker.docker_compose:
+        project_src: "{{ docker_compose_file }}"
+        build: false
+      register: output
+
+    - name: Create docker image for bot
+      docker_image:
+        name: csa-bot
+        source: build
+        build:
+          path: ./course-bot
+
+    - name: Start csa-bot container
+      docker_container:
+        name: csa-bot
+        image: csa-bot
+        restart_policy: always
+        detach: yes
+        volumes:
+          - "../edu-csa-internal:/edu-csa-internal"
+          - "../csa-db:/csa-db"

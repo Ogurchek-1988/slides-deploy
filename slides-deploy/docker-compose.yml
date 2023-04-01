@@ -1,20 +1,17 @@
-se-am:
-    image: webpronl/reveal-md
-    ports:
-        - 8000:1948
-    volumes:
-        - ./se-am/slides:/slides
-    restart: unless-stopped
+version: "3"
 
-fp:
-    image: webpronl/reveal-md
-    ports:
-        - 8001:1948
+services:
+  nginx:
+    image: nginx:latest
+    ports: 
+        - 80:80
     volumes:
-        - ./fp/slides:/slides
-    restart: unless-stopped
+        - ./hosts:/etc/nginx/conf.d
+    depends_on:
+      - csa
+      - updater
 
-csa:
+  csa:
     image: webpronl/reveal-md
     ports:
         - 8002:1948
@@ -23,7 +20,23 @@ csa:
         - ./csa/fig:/slides/figures
     restart: unless-stopped
 
-updater:
+  se-am:
+    image: webpronl/reveal-md
+    ports:
+        - 8000:1948
+    volumes:
+        - ./se-am/slides:/slides
+    restart: unless-stopped
+
+  fp:
+    image: webpronl/reveal-md
+    ports:
+        - 8001:1948
+    volumes:
+        - ./fp/slides:/slides
+    restart: unless-stopped
+
+  updater:
     image: ghcr.io/umputun/updater:master
     ports:
         - 8008:8008
@@ -33,4 +46,4 @@ updater:
         - CONF=/srv/etc/updater.yml
     volumes:
         - ./updater:/srv/etc
-        - /home/app/.ssh:/home/app/.ssh 
+        - /home/app/.ssh:/home/app/.ssh
