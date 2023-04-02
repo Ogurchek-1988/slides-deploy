@@ -9,6 +9,8 @@ services:
         - ./hosts:/etc/nginx/conf.d
     depends_on:
       - csa
+      - se-am
+      - fp  
       - updater
 
   csa:
@@ -47,3 +49,11 @@ services:
     volumes:
         - ./updater:/srv/etc
         - /home/app/.ssh:/home/app/.ssh
+
+  csa-bot:
+    build: ./course-bot
+    volumes:
+      - ../edu-csa-internal:/edu-csa-internal
+      - ../csa-db:/csa-db
+    restart: unless-stopped
+

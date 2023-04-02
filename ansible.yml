@@ -1,0 +1,27 @@
+- name: Clone repository, copy fig and slides to csa/fp/se-am, and launch docker-compose
+  hosts: localhost
+  become: true
+  vars:
+    git_csa_repo_url: https://gitlab.se.ifmo.ru/Ivan_Ostapenko/csa-rolling.git
+    git_fp_repo_url: https://gitlab.se.ifmo.ru/Ivan_Ostapenko/main.git
+    git_se_am_repo_url: https://gitlab.se.ifmo.ru/Ivan_Ostapenko/architectural-modeling.git
+    git_bot_repo_url: https://github.com/ryukzak/course-bot.git
+    docker_compose_file: .
+  tasks:
+    - name: Clone or pull repositories
+      git:
+        repo: "{{ item.repo }}"
+        dest: "{{ item.dest }}"
+        version: "{{ item.version }}"
+        force: yes
+      with_items:
+        - { repo: "{{ git_csa_repo_url }}", dest: './csa', version: 'master' }
+        - { repo: "{{ git_fp_repo_url }}", dest: './fp', version: 'master' }
+        - { repo: "{{ git_se_am_repo_url }}", dest: './se-am', version: 'master' }
+        - { repo: "{{ git_bot_repo_url }}", dest: './course-bot', version: 'master' }
+
+    - name: docker-compose up
+      community.docker.docker_compose:
+        project_src: "{{ docker_compose_file }}"
+        build: false
+      register: output
