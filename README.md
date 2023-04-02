@@ -6,22 +6,35 @@
 # Настройка системы для выполнения данного задания: #
 
 
-#### Дистрибутив: #### ubuntu server 20.04
+#### Дистрибутив: 
 
-#### Сгенерировать ssh ключи: #### ssh-keygen
+- ubuntu server 20.04
 
-#### Установить сертификаты: #### sudo apt-get install ca-certificates
+#### Сгенерировать ssh ключи: 
 
-#### Установить pip: #### sudo apt -y install python3-pip
+- ssh-keygen
 
-#### Установка ansible: #### sudo apt install ansible
+#### Установить сертификаты: 
 
-#### Установка docker: ####
-sudo apt install docker.io 
-sudo pip install docker
-sudo pip install docker-compose
-sudo gpasswd -a $USER docker
+- sudo apt-get install ca-certificates
+
+#### Установить pip: 
+
+- sudo apt -y install python3-pip
+
+#### Установка ansible: 
+
+- sudo apt install ansible
+
+#### Установка docker:
+
+- sudo apt install docker.io 
+- sudo pip install docker
+- sudo pip install docker-compose
+- sudo gpasswd -a $USER docker
 
 
-#### Запуск ansible-playbook: #### ansible-playbook ansible.yml
+#### Запуск ansible-playbook: 
+
+- ansible-playbook ansible.yml
 
