@@ -45,7 +45,7 @@
 `  stage: deploy`  \
 `  trigger:`  \
 `    project: gitlab.se.ifmo.ru/penskoi/slides-deploy`  \
-`    token: <trigger-token>`  \
+`    token: <trigger-token>`  
 
 Вместо <trigger-token> добавить токен, который можно получить перейдя в Settings->CI/CD->Pipeline triggers
 
