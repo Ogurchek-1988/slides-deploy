@@ -37,3 +37,15 @@
 
  `ansible-playbook ansible.yml`
 
+
+## Настройка gitlab-ci:
+
+В репозиториях со слайдами добавить в .gitlab-ci.yml вот этот код:
+`deploy:`
+`  stage: deploy`
+`  trigger:`
+`    project: gitlab.se.ifmo.ru/penskoi/slides-deploy`
+`    token: <trigger-token>`
+
+Вместо <trigger-token> добавить токен, который можно получить перейдя в Settings->CI/CD->Pipeline triggers
+
