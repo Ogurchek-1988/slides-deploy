@@ -6,8 +6,30 @@
     git_fp_repo_url: https://gitlab.se.ifmo.ru/Ivan_Ostapenko/main.git
     git_se_am_repo_url: https://gitlab.se.ifmo.ru/Ivan_Ostapenko/architectural-modeling.git
     git_bot_repo_url: https://github.com/ryukzak/course-bot.git
-    docker_compose_file: .
   tasks:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+      become: yes
+      become_method: sudo
+
+    - name: Add current user to docker group
+      become: true
+      shell: sudo gpasswd -a $USER docker
+
+    - name: install docker for python
+      pip:
+        name: docker
+      become: yes
+      become_method: sudo
+
+    - name: install docker-compose for pyhton
+      pip:
+        name: docker-compose
+      become: yes
+      become_method: sudo
+
     - name: Clone or pull repositories
       git:
         repo: "{{ item.repo }}"
@@ -22,6 +44,6 @@
 
     - name: docker-compose up
       community.docker.docker_compose:
-        project_src: "{{ docker_compose_file }}"
+        project_src: '.'
         build: false
       register: output
