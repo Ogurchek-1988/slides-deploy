@@ -24,7 +24,7 @@
 #### Настройка ansible.yml:
 
 
-> - name: Clone repository, copy fig and slides to csa/fp/se-am, and launch docker-compose
+>  name: Clone repository, copy fig and slides to csa/fp/se-am, and launch docker-compose
 >  hosts: localhost
 >  become: true
 >  vars:
