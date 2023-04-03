@@ -1,0 +1,9 @@
+deploy:
+  stage: deploy
+  rules:
+    - changes:
+        - gitlab.se.ifmo.ru/system-enginering/architectural-modeling/**
+        - gitlab.se.ifmo.ru/computer-systems/csa-rolling/**
+        - gitlab.se.ifmo.ru/functional-programming/main/**
+  script:
+    - ansible-playbook ansible.yml
