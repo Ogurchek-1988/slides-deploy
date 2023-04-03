@@ -2,9 +2,9 @@
   hosts: localhost
   become: true
   vars:
-    git_csa_repo_url: https://gitlab.se.ifmo.ru/Ivan_Ostapenko/csa-rolling.git
-    git_fp_repo_url: https://gitlab.se.ifmo.ru/Ivan_Ostapenko/main.git
-    git_se_am_repo_url: https://gitlab.se.ifmo.ru/Ivan_Ostapenko/architectural-modeling.git
+    git_csa_repo_url: https://gitlab.se.ifmo.ru/computer-systems/csa-rolling.git
+    git_fp_repo_url:  https://gitlab.se.ifmo.ru/functional-programming/main.git
+    git_se_am_repo_url: https://gitlab.se.ifmo.ru/system-enginering/architectural-modeling.git
     git_bot_repo_url: https://github.com/ryukzak/course-bot.git
   tasks:
     - name: Install Docker
